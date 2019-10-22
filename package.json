@@ -17,17 +17,14 @@
   "files": [
     "dist"
   ],
-  "author": {
-    "name": "Teamin Moon",
-    "email": "taemin@peoplefund.co.kr"
-  },
+  "author": "Teamin Moon, Peoplefund company <taemin@peoplefund.co.kr>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/peoplefund-tech/react-naver-login/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/peoplefund-tech/react-naver-login"
+    "url": "git+https://github.com/peoplefund-tech/react-naver-login.git"
   },
   "homepage": "https://github.com/peoplefund-tech/react-naver-login",
   "scripts": {
@@ -36,12 +33,8 @@
   "devDependencies": {
     "@types/react": "^16.9.9",
     "@types/react-dom": "^16.9.2",
-    "@types/react-test-renderer": "^16.9.1",
-    "react": "^16.10.2",
-    "react-dom": "^16.10.2",
-    "react-scripts-ts": "^3.1.0",
-    "react-test-renderer": "^16.10.2",
-    "rollup": "^1.25.0",
+    "react-scripts-ts": "^4.0.8",
+    "rollup": "^1.25.1",
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-peer-deps-external": "^2.2.0",
@@ -51,5 +44,9 @@
   "peerDependencies": {
     "react": "^16.0.0",
     "react-dom": "^16.0.0"
+  },
+  "dependencies": {
+    "react": "^16.10.2",
+    "react-dom": "^16.10.2"
   }
 }

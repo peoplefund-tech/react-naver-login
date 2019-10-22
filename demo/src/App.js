@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import NaverLogin from 'react-module-tuto-tammolo';
+import NaverLogin from 'react-naver-login';
 
 function App() {
 
