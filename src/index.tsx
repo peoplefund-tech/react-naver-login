@@ -51,7 +51,7 @@ const initLoginButton = (props: IProps) => {
 };
 
 const loadScript = () => {
-  if (document.querySelectorAll('#naver-login-sdk').length === 0) {
+  if (document && document.querySelectorAll('#naver-login-sdk').length === 0) {
     const script = document.createElement('script');
     script.id = 'naver-login-sdk';
     script.src = NAVER_ID_SDK_URL;
@@ -59,7 +59,7 @@ const loadScript = () => {
   }
 }
 const appendNaverButton = () => {
-  if (document.querySelectorAll('#naverIdLogin').length === 0) {
+  if (document && document.querySelectorAll('#naverIdLogin').length === 0) {
     const naverId = document.createElement('div');
     naverId.id = 'naverIdLogin';
     naverId.style.position =  'absolute';
@@ -69,12 +69,6 @@ const appendNaverButton = () => {
 }
 
 class LoginNaver extends React.Component<IProps, IState> {
-  constructor(props: IProps) {
-    super(props);
-    loadScript()
-    appendNaverButton();
-  }
-
    componentDidMount() {
     if(!('browser' in process)) {
       return;
@@ -86,6 +80,9 @@ class LoginNaver extends React.Component<IProps, IState> {
         clearInterval(initLoop);
         return;
       }
+
+      loadScript()
+      appendNaverButton();  
       
       if('naver' in window) {
         const naver: any = window['naver'];

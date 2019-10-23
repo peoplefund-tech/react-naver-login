@@ -9,7 +9,6 @@ interface IProps {
 interface IState {
 }
 declare class LoginNaver extends React.Component<IProps, IState> {
-    constructor(props: IProps);
     componentDidMount(): void;
     render(): React.ComponentElement<any, any> | Element | JSX.Element;
 }

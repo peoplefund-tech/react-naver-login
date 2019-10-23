@@ -79,7 +79,7 @@ var initLoginButton = function (props) {
     }, 100);
 };
 var loadScript = function () {
-    if (document.querySelectorAll('#naver-login-sdk').length === 0) {
+    if (document && document.querySelectorAll('#naver-login-sdk').length === 0) {
         var script = document.createElement('script');
         script.id = 'naver-login-sdk';
         script.src = NAVER_ID_SDK_URL;
@@ -87,7 +87,7 @@ var loadScript = function () {
     }
 };
 var appendNaverButton = function () {
-    if (document.querySelectorAll('#naverIdLogin').length === 0) {
+    if (document && document.querySelectorAll('#naverIdLogin').length === 0) {
         var naverId = document.createElement('div');
         naverId.id = 'naverIdLogin';
         naverId.style.position = 'absolute';
@@ -97,11 +97,8 @@ var appendNaverButton = function () {
 };
 var LoginNaver = /** @class */ (function (_super) {
     __extends(LoginNaver, _super);
-    function LoginNaver(props) {
-        var _this = _super.call(this, props) || this;
-        loadScript();
-        appendNaverButton();
-        return _this;
+    function LoginNaver() {
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     LoginNaver.prototype.componentDidMount = function () {
         var _this = this;
@@ -114,6 +111,8 @@ var LoginNaver = /** @class */ (function (_super) {
                 clearInterval(initLoop);
                 return;
             }
+            loadScript();
+            appendNaverButton();
             if ('naver' in window) {
                 var naver = window['naver'];
                 naver.successCallback = function (data) { return _this.props.onSuccess(data); };
