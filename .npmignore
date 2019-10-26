@@ -1,0 +1,36 @@
+# npm
+node_modules/
+bower_components/
+*.log
+*.gz
+
+# dev
+demo
+src
+.gitignore
+rollup.config.js
+tsconfig.json
+
+# OS X
+.DS_Store*
+Icon?
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Linux
+.directory
+*~
+
+# idea
+.idea/
+
+# VCS
+.git
+.svn
+
+.tmp
+.sass-cache

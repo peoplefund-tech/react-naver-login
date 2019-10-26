@@ -1,6 +1,6 @@
 {
   "name": "react-naver-login",
-  "version": "0.1.0-alpha.34",
+  "version": "0.1.1-alpha1",
   "description": "A Naver Login Component for React",
   "main": "dist/index.js",
   "module": "dist/index.es.js",

@@ -77,7 +77,7 @@ $ git clone https://github.com/peoplefund-tech/react-naver-login.git
 ```
 **2. Install packages from npm**
 ```
-$ cd react-module-test 
+$ cd react-naver-login 
 $ npm i
 ```
 

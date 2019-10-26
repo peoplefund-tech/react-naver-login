@@ -34,30 +34,27 @@ const initLoginButton = (props: IProps) => {
   );
 
   naverLogin.init();
-  let tryCount = 0;
-  const initLoop = setInterval(() => {
-    if(tryCount > 30) {
-      clearInterval(initLoop);
-    }
-    naverLogin.getLoginStatus((status: any) => {
-      if (!status || location.hash.indexOf('#access_token') === -1) {
-         return;
+
+  if (!window.opener) {
+    naver.successCallback = (data: any) => props.onSuccess(data);
+  } else {
+    let tryCount = 0;
+    const initLoop = setInterval(() => {
+      if(tryCount > 30) {
+        clearInterval(initLoop);
       }
-      window.opener.naver.successCallback(naverLogin.user);
-      window.close();
-    })
-    tryCount++;
-  }, 100);
+      naverLogin.getLoginStatus((status: any) => {
+        if (!status || location.hash.indexOf('#access_token') === -1) {
+           return;
+        }
+        window.opener.naver.successCallback(naverLogin.user);
+        window.close();
+      })
+      tryCount++;
+    }, 100);
+  }
 };
 
-const loadScript = () => {
-  if (document && document.querySelectorAll('#naver-login-sdk').length === 0) {
-    const script = document.createElement('script');
-    script.id = 'naver-login-sdk';
-    script.src = NAVER_ID_SDK_URL;
-    document.head.appendChild(script);
-  }
-}
 const appendNaverButton = () => {
   if (document && document.querySelectorAll('#naverIdLogin').length === 0) {
     const naverId = document.createElement('div');
@@ -67,6 +64,15 @@ const appendNaverButton = () => {
     document.body.appendChild(naverId);
   }
 }
+const loadScript = (props: IProps) => {
+  if (document && document.querySelectorAll('#naver-login-sdk').length === 0) {
+    const script = document.createElement('script');
+    script.id = 'naver-login-sdk';
+    script.src = NAVER_ID_SDK_URL;
+    script.onload = () => initLoginButton(props);
+    document.head.appendChild(script);
+  }
+}
 
 class LoginNaver extends React.Component<IProps, IState> {
    componentDidMount() {
@@ -74,27 +80,9 @@ class LoginNaver extends React.Component<IProps, IState> {
       return;
     }
 
-    let tryCount = 0;
-    const initLoop = setInterval(() => {
-      if (tryCount > 30) {
-        clearInterval(initLoop);
-        return;
-      }
-
-      loadScript()
-      appendNaverButton();  
-      
-      if('naver' in window) {
-        const naver: any = window['naver'];
-        naver.successCallback = (data: any) => this.props.onSuccess(data);
-        initLoginButton(this.props)
-        // 구글 로그인이랑 같이 사용하면 한 번에 초기화 안되는 버그가 있다.
-        setTimeout(() => initLoginButton(this.props), 1000)
-        clearInterval(initLoop);
-      }
-      tryCount++;
-    }, 100);
-    
+    // 네이버 로그인 버튼을 먼저 붙인 후 스크립트 로드하고 초기화를 해야 한다.
+    appendNaverButton();
+    loadScript(this.props);
   }
     
 
