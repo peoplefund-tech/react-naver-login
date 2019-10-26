@@ -63,27 +63,24 @@ var initLoginButton = function (props) {
         loginButton: { color: "green", type: 3, height: 60 },
     });
     naverLogin.init();
-    var tryCount = 0;
-    var initLoop = setInterval(function () {
-        if (tryCount > 30) {
-            clearInterval(initLoop);
-        }
-        naverLogin.getLoginStatus(function (status) {
-            if (!status || location.hash.indexOf('#access_token') === -1) {
-                return;
+    if (!window.opener) {
+        naver.successCallback = function (data) { return props.onSuccess(data); };
+    }
+    else {
+        var tryCount_1 = 0;
+        var initLoop_1 = setInterval(function () {
+            if (tryCount_1 > 30) {
+                clearInterval(initLoop_1);
             }
-            window.opener.naver.successCallback(naverLogin.user);
-            window.close();
-        });
-        tryCount++;
-    }, 100);
-};
-var loadScript = function () {
-    if (document && document.querySelectorAll('#naver-login-sdk').length === 0) {
-        var script = document.createElement('script');
-        script.id = 'naver-login-sdk';
-        script.src = NAVER_ID_SDK_URL;
-        document.head.appendChild(script);
+            naverLogin.getLoginStatus(function (status) {
+                if (!status || location.hash.indexOf('#access_token') === -1) {
+                    return;
+                }
+                window.opener.naver.successCallback(naverLogin.user);
+                window.close();
+            });
+            tryCount_1++;
+        }, 100);
     }
 };
 var appendNaverButton = function () {
@@ -95,34 +92,27 @@ var appendNaverButton = function () {
         document.body.appendChild(naverId);
     }
 };
+var loadScript = function (props) {
+    if (document && document.querySelectorAll('#naver-login-sdk').length === 0) {
+        var script = document.createElement('script');
+        script.id = 'naver-login-sdk';
+        script.src = NAVER_ID_SDK_URL;
+        script.onload = function () { return initLoginButton(props); };
+        document.head.appendChild(script);
+    }
+};
 var LoginNaver = /** @class */ (function (_super) {
     __extends(LoginNaver, _super);
     function LoginNaver() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     LoginNaver.prototype.componentDidMount = function () {
-        var _this = this;
         if (!('browser' in process)) {
             return;
         }
-        var tryCount = 0;
-        var initLoop = setInterval(function () {
-            if (tryCount > 30) {
-                clearInterval(initLoop);
-                return;
-            }
-            loadScript();
-            appendNaverButton();
-            if ('naver' in window) {
-                var naver = window['naver'];
-                naver.successCallback = function (data) { return _this.props.onSuccess(data); };
-                initLoginButton(_this.props);
-                // 구글 로그인이랑 같이 사용하면 한 번에 초기화 안되는 버그가 있다.
-                setTimeout(function () { return initLoginButton(_this.props); }, 1000);
-                clearInterval(initLoop);
-            }
-            tryCount++;
-        }, 100);
+        // 네이버 로그인 버튼을 먼저 붙인 후 스크립트 로드하고 초기화를 해야 한다.
+        appendNaverButton();
+        loadScript(this.props);
     };
     LoginNaver.prototype.render = function () {
         var render = this.props.render;
