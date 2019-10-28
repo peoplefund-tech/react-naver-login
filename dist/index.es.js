@@ -74,6 +74,7 @@ var initLoginButton = function (props) {
                 }
                 window.opener.naver.successCallback(naverLogin.user);
                 window.close();
+                clearInterval(initLoop_1);
             });
             tryCount_1++;
         }, 100);
@@ -112,7 +113,7 @@ var LoginNaver = /** @class */ (function (_super) {
     };
     LoginNaver.prototype.render = function () {
         var render = this.props.render;
-        return (render && render({
+        return (render({
             onClick: function () {
                 if (!document || !document.querySelector('#naverIdLogin').firstChild)
                     return;

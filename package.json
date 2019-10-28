@@ -1,6 +1,6 @@
 {
   "name": "react-naver-login",
-  "version": "0.1.1-alpha1",
+  "version": "0.1.2-alpha3",
   "description": "A Naver Login Component for React",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
@@ -20,7 +20,7 @@
   "author": "Teamin Moon, Peoplefund company <taemin@peoplefund.co.kr>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/peoplefund-tech/react-naver-login/issues"
+    "url": "https://github.cqom/peoplefund-tech/react-naver-login/issues"
   },
   "repository": {
     "type": "git",
@@ -34,6 +34,8 @@
     "@types/react": "^16.9.9",
     "@types/react-dom": "^16.9.2",
     "react-scripts-ts": "^4.0.8",
+    "react": "^16.10.2",
+    "react-dom": "^16.10.2",
     "rollup": "^1.25.1",
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-node-resolve": "^5.2.0",
@@ -42,11 +44,7 @@
     "typescript": "^3.6.4"
   },
   "peerDependencies": {
-    "react": "^16.0.0",
-    "react-dom": "^16.0.0"
-  },
-  "dependencies": {
-    "react": "^16.10.2",
-    "react-dom": "^16.10.2"
+    "react": ">=15.0.0",
+    "react-dom": ">=15.0.0"
   }
 }

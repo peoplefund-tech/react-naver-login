@@ -41,17 +41,17 @@ If responseType is 'code', callback will return the offline token for use on you
 
 You can also access the returned values via the following properties on the returned object.
 
-| property name |  value   |             definition               |
-|:-------------:|:--------:|:------------------------------------:|
-|   email       |  string  |           Naver user email           |
-|   id          |  string  |              Naver User ID           |
-|   name        |  string  |            user name                 |
-| profile_image |  string  |        Naver profile image           |
-|               | Optional |                                      |
-|     age       |  string  |               User Age               |
-|   birthday    |  string  |           User Birthday              |
-|     gender    |  string  |             User Gender              |
-|   nickname    |  string  |             User Nickname              |
+| property name |  value   |             definition               |     sample      |
+|:-------------:|:--------:|:------------------------------------:|:---------------:|
+|   email       |  string  |           Naver user email           | "abc@gmail.com" |
+|   id          |  string  |              Naver User ID           |    371972918    |
+|   name        |  string  |            user name                 |      "홍길동"     |
+| profile_image |  string  |        Naver profile image           | "http://img.na..|
+|               | Optional |                                      |                 |
+|     age       |  string  |               User Age               |     "20-29"     |
+|   birthday    |  string  |           User Birthday              |     "05-14"     |
+|     gender    |  string  |             User Gender              |       "M"       |
+|   nickname    |  string  |             User Nickname            |     tmmoond8    |
 
 ### onFailure callback
 
@@ -91,5 +91,5 @@ $ npm run build
 $ cd demo
 $ npm i
 $ npm run start
-$ open http://127.0.0.1, not http://localhost:3000
+$ open http://127.0.0.1:3000, not http://localhost:3000
 ```

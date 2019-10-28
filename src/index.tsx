@@ -1,12 +1,22 @@
 import * as React from 'react';
 
 const NAVER_ID_SDK_URL = 'https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js';
+export interface NaverUser {
+  email: string
+  name: string
+  id: string
+  profile_image: "https://phinf.pstatic.net/contact/20190225_94/1551076747070IDoQC_PNG/image.png"
+  age?: string
+  birthday?: string
+  gender?: string
+  nickname?: string
+}
 
 interface IProps {
   clientId: string;
   callbackUrl: string;
   render: (props: any) => React.ComponentElement<any, any> | Element | JSX.Element;
-  onSuccess: (result: any) => void;
+  onSuccess: (result: NaverUser) => void;
   onFailure: (result: any) => void;
 }
 
@@ -49,6 +59,7 @@ const initLoginButton = (props: IProps) => {
         }
         window.opener.naver.successCallback(naverLogin.user);
         window.close();
+        clearInterval(initLoop);
       })
       tryCount++;
     }, 100);
@@ -89,7 +100,7 @@ class LoginNaver extends React.Component<IProps, IState> {
   public render() {
     const { render } = this.props;
     return (
-      render && render({ 
+      render({ 
         onClick: () => { 
           if (!document || !(document as any).querySelector('#naverIdLogin').firstChild) return;
           const naverLoginButton: any = (document as any).querySelector('#naverIdLogin').firstChild;
