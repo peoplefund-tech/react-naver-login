@@ -5,7 +5,7 @@ export interface NaverUser {
   email: string
   name: string
   id: string
-  profile_image: "https://phinf.pstatic.net/contact/20190225_94/1551076747070IDoQC_PNG/image.png"
+  profile_image: string;
   age?: string
   birthday?: string
   gender?: string
@@ -17,10 +17,9 @@ interface IProps {
   callbackUrl: string;
   render: (props: any) => React.ComponentElement<any, any> | Element | JSX.Element;
   onSuccess: (result: NaverUser) => void;
-  onFailure: (result: any) => void;
+  onFailure: () => void;
 }
 
-interface IState {}
 
 /**
  * 이 함수는 브라우저 환경에서만 호출이 되야 한다. window 객체에 직접 접근한다.
@@ -30,8 +29,7 @@ const initLoginButton = (props: IProps) => {
   if(!('browser' in process)) {
     return;
   }
-  const { clientId, callbackUrl} = props;
-  const { location } = { ...window};
+  const { clientId, callbackUrl, onSuccess, onFailure } = props;
   const naver = window['naver'];
 
   const naverLogin = new naver.LoginWithNaverId(
@@ -46,23 +44,17 @@ const initLoginButton = (props: IProps) => {
   naverLogin.init();
 
   if (!window.opener) {
-    naver.successCallback = (data: any) => props.onSuccess(data);
+    naver.successCallback = (data: NaverUser) => onSuccess(data);
+    naver.failureCallback = onFailure;
   } else {
-    let tryCount = 0;
-    const initLoop = setInterval(() => {
-      if(tryCount > 30) {
-        clearInterval(initLoop);
-      }
-      naverLogin.getLoginStatus((status: any) => {
-        if (!status || location.hash.indexOf('#access_token') === -1) {
-           return;
-        }
+    naverLogin.getLoginStatus((status: any) => {
+      if (status) {
         window.opener.naver.successCallback(naverLogin.user);
-        window.close();
-        clearInterval(initLoop);
-      })
-      tryCount++;
-    }, 100);
+      } else {
+        window.opener.failureCallback();
+      }
+      window.close();
+    })
   }
 };
 
@@ -85,13 +77,11 @@ const loadScript = (props: IProps) => {
   }
 }
 
-class LoginNaver extends React.Component<IProps, IState> {
+class LoginNaver extends React.Component<IProps> {
    componentDidMount() {
     if(!('browser' in process)) {
       return;
     }
-
-    // 네이버 로그인 버튼을 먼저 붙인 후 스크립트 로드하고 초기화를 해야 한다.
     appendNaverButton();
     loadScript(this.props);
   }

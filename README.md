@@ -25,8 +25,8 @@ ReactDOM.render(
     clientId="sdffdNNFDSjsddiosd"
     callbackUrl="http://127.0.0.1:3000/login"
     render={(props) => <div onClick={props.onClick}>Naver Login</div>}
-    onSuccess={(result) => console.log(result)}
-    onFailure={(result) => console.error(result)}
+    onSuccess={(naverUser) => console.log(naverUser)}
+    onFailure={() => console.error(result)}
   />,
   document.getElementById('root')
 );
@@ -35,33 +35,26 @@ ReactDOM.render(
 ## onSuccess / onFailure callback
 ---
 
-If responseType is not 'code', callback will return the NaverAuth object.
-
-If responseType is 'code', callback will return the offline token for use on your server.
+if response is success, it will call the onSuccess with naver user object.
+or not, it will call the onFailure and return nothing.
 
 You can also access the returned values via the following properties on the returned object.
 
+### Required 
 | property name |  value   |             definition               |     sample      |
 |:-------------:|:--------:|:------------------------------------:|:---------------:|
 |   email       |  string  |           Naver user email           | "abc@gmail.com" |
-|   id          |  string  |              Naver User ID           |    371972918    |
+|   id          |  string  |              Naver User ID           |   "371972918"   |
 |   name        |  string  |            user name                 |      "홍길동"     |
-| profile_image |  string  |        Naver profile image           | "http://img.na..|
-|               | Optional |                                      |                 |
-|     age       |  string  |               User Age               |     "20-29"     |
-|   birthday    |  string  |           User Birthday              |     "05-14"     |
-|     gender    |  string  |             User Gender              |       "M"       |
-|   nickname    |  string  |             User Nickname            |     tmmoond8    |
+| profile_image |  string  |        Naver profile image           |"http://img.na.."|  
 
-### onFailure callback
-
-onFailure callback is called when either initialization or a signin attempt fails.
-
-| property name |  value   |             definition               |
-|:-------------:|:--------:|:------------------------------------:|
-|   error       |  string  |           Error code                 |
-|   details     |  string  |      Detailed error description      |
-
+### Optional
+| property name |        value         |             definition               |     sample      |
+|:-------------:|:--------------------:|:------------------------------------:|:---------------:|
+|     age       |  string / undefined  |               User Age               |     "20-29"     |
+|   birthday    |  string / undefined  |           User Birthday              |     "05-14"     |
+|     gender    |  string / undefined  |             User Gender              |       "M"       |
+|   nickname    |  string / undefined  |             User Nickname            |    "tmmoond8"   |
 
 ## Run on your machine
 ---

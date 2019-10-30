@@ -49,7 +49,7 @@ var initLoginButton = function (props) {
     if (!('browser' in process)) {
         return;
     }
-    var clientId = props.clientId, callbackUrl = props.callbackUrl;
+    var clientId = props.clientId, callbackUrl = props.callbackUrl, onSuccess = props.onSuccess, onFailure = props.onFailure;
     var location = __assign({}, window).location;
     var naver = window['naver'];
     var naverLogin = new naver.LoginWithNaverId({
@@ -60,24 +60,25 @@ var initLoginButton = function (props) {
     });
     naverLogin.init();
     if (!window.opener) {
-        naver.successCallback = function (data) { return props.onSuccess(data); };
+        naver.successCallback = function (data) { return onSuccess(data); };
+        naver.FailureCallback = onFailure;
     }
     else {
-        var tryCount_1 = 0;
-        var initLoop_1 = setInterval(function () {
-            if (tryCount_1 > 30) {
-                clearInterval(initLoop_1);
+        // let tryCount = 0;
+        // const initLoop = setInterval(() => {
+        //   if(tryCount > 30) {
+        //     clearInterval(initLoop);
+        //   }
+        //   tryCount++;
+        // }, 100);
+        naverLogin.getLoginStatus(function (status) {
+            if (!status || location.hash.indexOf('#access_token') === -1) {
+                return;
             }
-            naverLogin.getLoginStatus(function (status) {
-                if (!status || location.hash.indexOf('#access_token') === -1) {
-                    return;
-                }
-                window.opener.naver.successCallback(naverLogin.user);
-                window.close();
-                clearInterval(initLoop_1);
-            });
-            tryCount_1++;
-        }, 100);
+            window.opener.naver.successCallback(naverLogin.user);
+            window.close();
+            // clearInterval(initLoop);
+        });
     }
 };
 var appendNaverButton = function () {

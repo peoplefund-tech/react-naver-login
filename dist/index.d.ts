@@ -14,7 +14,7 @@ interface IProps {
     callbackUrl: string;
     render: (props: any) => React.ComponentElement<any, any> | Element | JSX.Element;
     onSuccess: (result: NaverUser) => void;
-    onFailure: (result: any) => void;
+    onFailure: () => void;
 }
 interface IState {
 }
