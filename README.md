@@ -26,7 +26,7 @@ ReactDOM.render(
     callbackUrl="http://127.0.0.1:3000/login"
     render={(props) => <div onClick={props.onClick}>Naver Login</div>}
     onSuccess={(naverUser) => console.log(naverUser)}
-    onFailure={() => console.error(result)}
+    onFailure={(result) => console.error(result)}
   />,
   document.getElementById('root')
 );
